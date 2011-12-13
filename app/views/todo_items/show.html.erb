@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Content:</b>
+  <%= @todo_item.content %>
+</p>
+
+<p>
+  <b>Priority:</b>
+  <%= @todo_item.priority %>
+</p>
+
+
+<%= link_to 'Edit', edit_todo_item_path(@todo_item) %> |
+<%= link_to 'Back', todo_items_path %>
