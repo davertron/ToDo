@@ -10,6 +10,22 @@ $ ->
 			@complete = ko.observable mongoTodo.complete
 			@priority = mongoTodo.priority
 
+		update: ->
+			$.ajax
+				data:
+					_method: 'put'
+					todo_item:
+						_id: @_id
+						content: @content
+						complete: @complete()
+						priority: @priority
+				error: ->
+					console.log "Fuck, didn't save, sorry man"
+				success: ->
+					console.log "Totally fucking saved, rad man"
+				type: 'POST'
+				url: "/todo_items/#{@_id}.json"
+
 	viewModel =
 		todos: ko.observableArray()
 
@@ -19,3 +35,7 @@ $ ->
 	$('.todo-item').remove()
 
 	ko.applyBindings viewModel
+
+	$('#save').click ->
+		for todo in viewModel.todos()
+			todo.update()
