@@ -1,25 +1,47 @@
 <h1>Listing todo_items</h1>
 
 <table>
-  <tr>
-    <th>Content</th>
-    <th>Priority</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @todo_items.each do |todo_item| %>
-  <tr>
-    <td><%= todo_item.content %></td>
-    <td><%= todo_item.priority %></td>
-    <td><%= link_to 'Show', todo_item %></td>
-    <td><%= link_to 'Edit', edit_todo_item_path(todo_item) %></td>
-    <td><%= link_to 'Destroy', todo_item, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
+  <thead>
+	  <tr>
+		<th>Complete?</th>
+		<th>Priority</th>
+		<th>Content</th>
+		<th></th>
+		<th></th>
+		<th></th>
+	  </tr>
+  </thead>
+  <tbody data-bind="template: {name: 'todo-row', foreach: todos}">
+	<% @todo_items.each do |todo_item| %>
+	  <tr class="todo-item">
+		<td><input type="checkbox" <% if todo_item.complete %> checked="checked"<% end %> /></td>
+		<td><%= todo_item.priority %></td>
+		<td><span class="<%= 'finished' if todo_item.complete %>"><%= todo_item.content %></span></td>
+		<td><%= link_to 'Show', todo_item %></td>
+		<td><%= link_to 'Edit', edit_todo_item_path(todo_item) %></td>
+		<td><%= link_to 'Destroy', todo_item, confirm: 'Are you sure?', method: :delete %></td>
+	  </tr>
+	<% end %>
+  </tbody>
 </table>
 
 <br />
 
 <%= link_to 'New Todo item', new_todo_item_path %>
+
+<script id="todo-row" type="text/x-jquery-tmpl">
+  <tr class="todo-item">
+	<td><input data-bind="checked: complete" type="checkbox" /></td>
+	<td>{{= priority }}</td>
+	<td><span data-bind="css: { finished: complete() }" class="todo-item">{{= content }}</span></td>
+	<td></td>
+	<td></td>
+	<td></td>
+  </tr>
+</script>
+
+<script type="text/javascript">
+	var TODO = {
+		todos: <%= raw @todo_items.to_json %>
+	};
+</script>
