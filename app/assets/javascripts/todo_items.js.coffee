@@ -13,26 +13,22 @@ $ ->
 
 		update: ->
 			@updating(true)
-			$.when(
-				$.ajax
-					data:
-						_method: 'put'
-						todo_item:
-							_id: @_id
-							content: @content
-							complete: @complete()
-							priority: @priority
-					error: ->
-						console.log "Fuck, didn't save, sorry man"
-					success: ->
-						console.log "Totally fucking saved, rad man"
-					type: 'POST'
-					url: "/todo_items/#{@_id}.json"
-			).then(=>
+			$.ajax
+				data:
+					_method: 'put'
+					todo_item:
+						_id: @_id
+						content: @content
+						complete: @complete()
+						priority: @priority
+				type: 'POST'
+				url: "/todo_items/#{@_id}.json"
+			.success =>
+				console.log 'Yay!'
+			.fail (a, b, c) =>
+				console.log 'Oh noes', a, b, c
+			.complete =>
 				@updating(false)
-			).fail(=>
-				@updating(false)
-			)
 
 	viewModel =
 		todos: ko.observableArray()
