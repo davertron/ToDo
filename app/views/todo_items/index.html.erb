@@ -35,7 +35,7 @@
   <tr class="todo-item">
 	<td><input data-bind="checked: complete" type="checkbox" /></td>
 	<td>{{= priority }}</td>
-	<td><span data-bind="css: { finished: complete() }" class="todo-item">{{= content }}</span></td>
+	<td><span data-bind="css: { finished: complete() }" class="todo-item">{{= content }}</span><span data-bind="visible: updating">Updating...</span></td>
 	<td></td>
 	<td></td>
 	<td></td>
