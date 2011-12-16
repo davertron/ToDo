@@ -38,7 +38,6 @@ $ ->
 				console.log 'Oh noes, unable to save or problem with response: ', a, b, c
 
 
-
 	viewModel =
 		todos: ko.observableArray()
 
