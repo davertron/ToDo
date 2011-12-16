@@ -15,18 +15,16 @@ $ ->
 			@updating(true)
 			$.ajax
 				data:
-					_method: 'put'
 					todo_item:
 						_id: @_id
 						content: @content
 						complete: @complete()
 						priority: @priority
-				type: 'POST'
+				type: 'PUT'
+				dataType: 'html'
 				url: "/todo_items/#{@_id}.json"
-			.success =>
-				console.log 'Yay!'
 			.fail (a, b, c) =>
-				console.log 'Oh noes', a, b, c
+				console.log 'Oh noes, unable to save or problem with response: ', a, b, c
 			.complete =>
 				@updating(false)
 
