@@ -13,7 +13,15 @@ $ ->
 
 		update: ->
 			@updating(true)
-			$.ajax
+			defer = new $.Deferred()
+			showSpinnerForAtLeastHalfASecond = ->
+				setTimeout ->
+					console.log 'Resolving defered'
+					defer.resolve()
+				, 500
+				return defer.promise()
+
+			$.when($.ajax(
 				data:
 					todo_item:
 						_id: @_id
@@ -23,10 +31,13 @@ $ ->
 				type: 'PUT'
 				dataType: 'html'
 				url: "/todo_items/#{@_id}.json"
-			.fail (a, b, c) =>
-				console.log 'Oh noes, unable to save or problem with response: ', a, b, c
-			.complete =>
+			), showSpinnerForAtLeastHalfASecond())
+			.done =>
 				@updating(false)
+			.fail (a, b, c) ->
+				console.log 'Oh noes, unable to save or problem with response: ', a, b, c
+
+
 
 	viewModel =
 		todos: ko.observableArray()

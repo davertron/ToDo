@@ -2,6 +2,14 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.todo-item {
+  padding-right: 20px;
+}
+
 .finished {
   text-decoration: line-through;
+}
+
+.updating {
+  background: url(image_path('ajax-loader.gif')) right center no-repeat;
 }
