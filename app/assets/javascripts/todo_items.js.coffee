@@ -43,13 +43,15 @@ $ ->
 	viewModel =
 		todos: ko.observableArray()
 
-	for todo in TODO.todos
-		viewModel.todos.push new Todo todo
+	# TODO: Namespace my shiz
+	if window.TODO and window.TODO.todos
+		for todo in window.TODO.todos
+			viewModel.todos.push new Todo todo
 
-	$('.todo-item').remove()
+		$('.todo-item').remove()
 
-	ko.applyBindings viewModel
+		ko.applyBindings viewModel
 
-	$('#save').click ->
-		for todo in viewModel.todos()
-			todo.update()
+		$('#save').click ->
+			for todo in viewModel.todos()
+				todo.update()
