@@ -11,30 +11,33 @@ $ ->
 			@priority = mongoTodo.priority
 			@updating = ko.observable false
 
-		update: ->
-			@updating(true)
-			defer = new $.Deferred()
-			showSpinnerForAtLeastHalfASecond = ->
-				setTimeout ->
-					defer.resolve()
-				, 500
-				return defer.promise()
+			@needsUpdate = ko.dependentObservable ->
+				this.complete()
 
-			$.when($.ajax(
-				data:
-					todo_item:
-						_id: @_id
-						content: @content
-						complete: @complete()
-						priority: @priority
-				type: 'PUT'
-				dataType: 'html'
-				url: "/todo_items/#{@_id}.json"
-			), showSpinnerForAtLeastHalfASecond())
-			.done =>
-				@updating(false)
-			.fail (a, b, c) ->
-				console.log 'Oh noes, unable to save or problem with response: ', a, b, c
+				this.updating(true)
+				defer = new $.Deferred()
+				showSpinnerForAtLeastHalfASecond = ->
+					setTimeout ->
+						defer.resolve()
+					, 500
+					return defer.promise()
+
+				$.when($.ajax(
+					data:
+						todo_item:
+							_id: this._id
+							content: this.content
+							complete: this.complete()
+							priority: this.priority
+					type: 'PUT'
+					dataType: 'html'
+					url: "/todo_items/#{this._id}.json"
+				), showSpinnerForAtLeastHalfASecond())
+				.done =>
+					this.updating(false)
+				.fail (a, b, c) ->
+					console.log 'Oh noes, unable to save or problem with response: ', a, b, c
+			, this
 
 
 	viewModel =
