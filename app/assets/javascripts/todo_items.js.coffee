@@ -16,7 +16,6 @@ $ ->
 			defer = new $.Deferred()
 			showSpinnerForAtLeastHalfASecond = ->
 				setTimeout ->
-					console.log 'Resolving defered'
 					defer.resolve()
 				, 500
 				return defer.promise()
