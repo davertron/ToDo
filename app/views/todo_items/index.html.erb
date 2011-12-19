@@ -2,10 +2,10 @@
 
 <form id="new-todo-form">
 	<input id="new-todo-content" name="new-todo-content" type="text" data-bind="event: { keyup: handleNewTodoKeyPress }" />
-	<input type="submit" value="Add" data-bind="enable: sendableTodo" />
+	<input type="submit" value="Add" data-bind="enable: sendableTodo" class="btn primary" />
 </form>
 
-<table>
+<table class="zebra-striped">
   <thead>
 	  <tr>
 		<th></th>
@@ -24,7 +24,7 @@
 		<td><span class="<%= 'finished' if todo_item.complete %>"><%= todo_item.content %></span></td>
 		<td><%= link_to 'Show', todo_item %></td>
 		<td><%= link_to 'Edit', edit_todo_item_path(todo_item) %></td>
-		<td><%= link_to 'Destroy', todo_item, confirm: 'Are you sure?', method: :delete %></td>
+		<td><%= link_to 'Destroy', todo_item, confirm: 'Are you sure?', method: :delete, :class => 'btn danger' %></td>
 	  </tr>
 	<% end %>
   </tbody>
@@ -47,6 +47,6 @@
 	<td><span data-bind="css: { finished: complete, updating: updating }" class="todo-item">{{= content }}</span></td>
 	<td></td>
 	<td></td>
-	<td><a href="/todo_items/{{= _id }}.json" class="delete-todo">Delete</a></td>
+	<td><a href="/todo_items/{{= _id }}.json" class="delete-todo btn danger">Delete</a></td>
   </tr>
 </script>

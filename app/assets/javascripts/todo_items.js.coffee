@@ -59,7 +59,6 @@ $ ->
 		# Remove static link to new todo page and replace with a form input for
 		# adding todos dynamically
 		$('#new-todo-link').hide()
-		$('#new-todo-content').css('width', $('table').width());
 		$('#new-todo-form').show().submit (e) ->
 			e.preventDefault()
 			content = $('#new-todo-content').val()
