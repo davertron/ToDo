@@ -69,7 +69,7 @@ $ ->
 						todo_item:
 							content: content
 							complete: false
-							priority: 0
+							priority: 1
 					type: 'POST'
 					url: '/todo_items.json'
 					success: (response) ->
