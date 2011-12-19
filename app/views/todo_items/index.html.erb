@@ -1,8 +1,8 @@
 <h1>Listing todo_items</h1>
 
 <form id="new-todo-form">
-	<input id="new-todo-content" name="new-todo-content" type="text" data-bind="value: newTodo" />
-	<input type="submit" value="Add" data-bind="enable: newTodo().length > 0" />
+	<input id="new-todo-content" name="new-todo-content" type="text" data-bind="event: { keyup: handleNewTodoKeyPress }" />
+	<input type="submit" value="Add" data-bind="enable: sendableTodo" />
 </form>
 
 <table>

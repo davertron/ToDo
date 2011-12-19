@@ -41,7 +41,10 @@ $ ->
 
 
 	viewModel =
-		newTodo: ko.observable ''
+		sendableTodo: ko.observable false
+		handleNewTodoKeyPress: ->
+			this.sendableTodo $('#new-todo-content').val().length > 0
+			return true
 		todos: ko.observableArray()
 
 	# TODO: Namespace my shiz
@@ -72,7 +75,7 @@ $ ->
 					success: (response) ->
 						$('#new-todo-content').val ''
 						viewModel.todos.push new Todo response
-						viewModel.newTodo ''
+						viewModel.sendableTodo false
 					error: logError
 
 		# Wire up delete links
