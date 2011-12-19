@@ -13,3 +13,7 @@
 .updating {
   background: url(image_path('ajax-loader.gif')) right center no-repeat;
 }
+
+#new-todo-form {
+  display: none;
+}

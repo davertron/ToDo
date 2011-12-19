@@ -1,5 +1,10 @@
 <h1>Listing todo_items</h1>
 
+<form id="new-todo-form">
+	<input id="new-todo-content" name="new-todo-content" type="text" data-bind="value: newTodo" />
+	<input type="submit" value="Add" data-bind="enable: newTodo().length > 0" />
+</form>
+
 <table>
   <thead>
 	  <tr>
@@ -27,21 +32,21 @@
 
 <br />
 
-<%= link_to 'New Todo item', new_todo_item_path %>
-
-<script id="todo-row" type="text/x-jquery-tmpl">
-  <tr class="todo-item">
-	<td><input data-bind="checked: complete" type="checkbox" /></td>
-	<td>{{= priority }}</td>
-	<td><span data-bind="css: { finished: complete, updating: updating }" class="todo-item">{{= content }}</span></td>
-	<td></td>
-	<td></td>
-	<td></td>
-  </tr>
-</script>
+<%= link_to 'New Todo item', new_todo_item_path, :id => 'new-todo-link' %>
 
 <script type="text/javascript">
 	var TODO = {
 		todos: <%= raw @todo_items.to_json %>
 	};
+</script>
+
+<script id="todo-row" type="text/x-jquery-tmpl">
+  <tr class="todo-item" id="{{= _id}}">
+	<td><input data-bind="checked: complete" type="checkbox" /></td>
+	<td>{{= priority }}</td>
+	<td><span data-bind="css: { finished: complete, updating: updating }" class="todo-item">{{= content }}</span></td>
+	<td></td>
+	<td></td>
+	<td><a href="/todo_items/{{= _id }}.json" class="delete-todo">Delete</a></td>
+  </tr>
 </script>

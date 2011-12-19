@@ -3,6 +3,9 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 $ ->
+	logError = (a, b, c) ->
+		console.log 'Oh noes, unable to save or problem with response: ', a, b, c
+
 	class Todo
 		constructor: (mongoTodo) ->
 			@_id = mongoTodo._id
@@ -11,10 +14,9 @@ $ ->
 			@priority = mongoTodo.priority
 			@updating = ko.observable false
 
-			@needsUpdate = ko.dependentObservable ->
-				this.complete()
-
-				this.updating(true)
+			# When the completion status changes, update over ajax
+			@complete.subscribe =>
+				@updating true
 				defer = new $.Deferred()
 				showSpinnerForAtLeastHalfASecond = ->
 					setTimeout ->
@@ -25,22 +27,21 @@ $ ->
 				$.when($.ajax(
 					data:
 						todo_item:
-							_id: this._id
-							content: this.content
-							complete: this.complete()
-							priority: this.priority
+							_id: @_id
+							content: @content
+							complete: @complete()
+							priority: @priority
 					type: 'PUT'
 					dataType: 'html'
-					url: "/todo_items/#{this._id}.json"
+					url: "/todo_items/#{@_id}.json"
 				), showSpinnerForAtLeastHalfASecond())
 				.done =>
-					this.updating(false)
-				.fail (a, b, c) ->
-					console.log 'Oh noes, unable to save or problem with response: ', a, b, c
-			, this
+					@updating false
+				.fail logError
 
 
 	viewModel =
+		newTodo: ko.observable ''
 		todos: ko.observableArray()
 
 	# TODO: Namespace my shiz
@@ -52,6 +53,37 @@ $ ->
 
 		ko.applyBindings viewModel
 
-		$('#save').click ->
-			for todo in viewModel.todos()
-				todo.update()
+		# Remove static link to new todo page and replace with a form input for
+		# adding todos dynamically
+		$('#new-todo-link').hide()
+		$('#new-todo-content').css('width', $('table').width());
+		$('#new-todo-form').show().submit (e) ->
+			e.preventDefault()
+			content = $('#new-todo-content').val()
+			if content.length > 0
+				$.ajax
+					data:
+						todo_item:
+							content: content
+							complete: false
+							priority: 0
+					type: 'POST'
+					url: '/todo_items.json'
+					success: (response) ->
+						$('#new-todo-content').val ''
+						viewModel.todos.push new Todo response
+						viewModel.newTodo ''
+					error: logError
+
+		# Wire up delete links
+		$('.delete-todo').live 'click', (e) ->
+			e.preventDefault()
+			$link = $(this)
+			$.ajax
+				type: 'DELETE'
+				url: $link.attr 'href'
+				dataType: 'html'
+				success: (response) ->
+					viewModel.todos.remove (todo) ->
+						return todo._id == $link.closest('tr').attr 'id'
+				error: logError
