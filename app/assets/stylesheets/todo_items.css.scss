@@ -17,3 +17,12 @@
 #new-todo-form {
   display: none;
 }
+
+#new-todo-wrapper {
+  width: 80%;
+  margin: auto;
+
+  #new-todo-content {
+    width: 90%;
+  }
+}

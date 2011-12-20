@@ -50,7 +50,7 @@ $ ->
 	# TODO: Namespace my shiz
 	if window.TODO and window.TODO.todos
 		for todo in window.TODO.todos
-			viewModel.todos.push new Todo todo
+			viewModel.todos.unshift new Todo todo
 
 		$('.todo-item').remove()
 
@@ -73,7 +73,7 @@ $ ->
 					url: '/todo_items.json'
 					success: (response) ->
 						$('#new-todo-content').val ''
-						viewModel.todos.push new Todo response
+						viewModel.todos.unshift new Todo response
 						viewModel.sendableTodo false
 					error: logError
 

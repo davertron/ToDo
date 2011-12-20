@@ -1,38 +1,50 @@
-<h1>Listing todo_items</h1>
+<div class="topbar">
+	<div class="fill">
+		<div class="container">
+			<a class="brand" href="/todo_items">Todo</a>
+		</div>
+	</div>
+</div>
 
-<form id="new-todo-form">
-	<input id="new-todo-content" name="new-todo-content" type="text" data-bind="event: { keyup: handleNewTodoKeyPress }" />
-	<input type="submit" value="Add" data-bind="enable: sendableTodo" class="btn primary" />
-</form>
+<div class="container">
+	<h1>Todos</h1>
 
-<table class="zebra-striped">
-  <thead>
-	  <tr>
-		<th></th>
-		<th>Priority</th>
-		<th>Content</th>
-		<th></th>
-		<th></th>
-		<th></th>
-	  </tr>
-  </thead>
-  <tbody data-bind="template: {name: 'todo-row', foreach: todos}">
-	<% @todo_items.each do |todo_item| %>
-	  <tr class="todo-item">
-		<td><input type="checkbox" <% if todo_item.complete %> checked="checked"<% end %> /></td>
-		<td><%= todo_item.priority %></td>
-		<td><span class="<%= 'finished' if todo_item.complete %>"><%= todo_item.content %></span></td>
-		<td><%= link_to 'Show', todo_item %></td>
-		<td><%= link_to 'Edit', edit_todo_item_path(todo_item) %></td>
-		<td><%= link_to 'Destroy', todo_item, confirm: 'Are you sure?', method: :delete, :class => 'btn danger' %></td>
-	  </tr>
-	<% end %>
-  </tbody>
-</table>
+	<form id="new-todo-form">
+		<div id="new-todo-wrapper">
+			<input id="new-todo-content" name="new-todo-content" type="text" data-bind="event: { keyup: handleNewTodoKeyPress }" />
+			<input type="submit" value="Add" data-bind="enable: sendableTodo" class="btn primary" />
+		</div>
+	</form>
 
-<br />
+	<table class="zebra-striped">
+	  <thead>
+		  <tr>
+			<th></th>
+			<th>Priority</th>
+			<th>Content</th>
+			<th></th>
+			<th></th>
+			<th></th>
+		  </tr>
+	  </thead>
+	  <tbody data-bind="template: {name: 'todo-row', foreach: todos}">
+		<% @todo_items.each do |todo_item| %>
+		  <tr class="todo-item">
+			<td><input type="checkbox" <% if todo_item.complete %> checked="checked"<% end %> /></td>
+			<td><%= todo_item.priority %></td>
+			<td><span class="<%= 'finished' if todo_item.complete %>"><%= todo_item.content %></span></td>
+			<td><%= link_to 'Show', todo_item %></td>
+			<td><%= link_to 'Edit', edit_todo_item_path(todo_item) %></td>
+			<td><%= link_to 'Destroy', todo_item, confirm: 'Are you sure?', method: :delete, :class => 'btn danger' %></td>
+		  </tr>
+		<% end %>
+	  </tbody>
+	</table>
 
-<%= link_to 'New Todo item', new_todo_item_path, :id => 'new-todo-link' %>
+	<br />
+
+	<%= link_to 'New Todo item', new_todo_item_path, :id => 'new-todo-link' %>
+</div>
 
 <script type="text/javascript">
 	var TODO = {
@@ -47,6 +59,6 @@
 	<td><span data-bind="css: { finished: complete, updating: updating }" class="todo-item">{{= content }}</span></td>
 	<td></td>
 	<td></td>
-	<td><a href="/todo_items/{{= _id }}.json" class="delete-todo btn danger">Delete</a></td>
+	<td><a href="/todo_items/{{= _id }}.json" class="delete-todo btn danger small">Delete</a></td>
   </tr>
 </script>
