@@ -12,9 +12,9 @@
       <div class="fill">
         <div class="container">
           <%= link_to 'Todo', todo_items_path, :class => 'brand' %>
-          <ul class="nav secondary-nav">
-            <li><%= link_to 'Log out', destroy_user_session_path, :method => :delete %></li>
-          </ul>
+          <p class="pull-right">
+            Logged in as <%= link_to current_user.email, '#' %> | <%= link_to 'Log out', destroy_user_session_path, :method => :delete %>
+          </p>
         </div>
       </div>
     </div>
