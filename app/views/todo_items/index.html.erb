@@ -2,6 +2,8 @@
   <h1>Todos</h1>
 </div>
 
+<%= render :partial => "application/alerts" %>
+
 <form id="new-todo-form">
   <div id="new-todo-wrapper">
     <input id="new-todo-content" name="new-todo-content" type="text" data-bind="event: { keyup: handleNewTodoKeyPress }" />

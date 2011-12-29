@@ -12,20 +12,13 @@
       <div class="fill">
         <div class="container">
           <%= link_to 'Todo', todo_items_path, :class => 'brand' %>
+          <% if current_user %>
           <p class="pull-right">
             Logged in as <%= link_to current_user.email, '#' %> | <%= link_to 'Log out', destroy_user_session_path, :method => :delete %>
           </p>
+          <% end %>
         </div>
       </div>
-    </div>
-
-    <div class="container">
-      <% if notice %>
-        <p class="alert-message block-message success"><%= notice %></p>
-      <% end %>
-      <% if alert %>
-        <p class="alert-message block-message warning"><%= alert %></p>
-      <% end %>
     </div>
 
     <div class="container">
