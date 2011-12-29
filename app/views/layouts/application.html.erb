@@ -5,6 +5,7 @@
     <%= stylesheet_link_tag    "application" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag    "overrides" %>
   </head>
   <body>
     <div class="topbar">
@@ -19,12 +20,18 @@
     </div>
 
     <div class="container">
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
+      <% if notice %>
+        <p class="alert-message block-message success"><%= notice %></p>
+      <% end %>
+      <% if alert %>
+        <p class="alert-message block-message warning"><%= alert %></p>
+      <% end %>
     </div>
 
     <div class="container">
-      <%= yield %>
+      <div class="content">
+        <%= yield %>
+      </div>
     </div>
   </body>
 </html>

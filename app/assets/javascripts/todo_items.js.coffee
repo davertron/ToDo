@@ -54,6 +54,11 @@ $ ->
 
 		$('.todo-item').remove()
 
+		# Clear any alerts (such as login success, etc.) after 5 seconds
+		setTimeout ->
+			$('.alert-message').fadeOut()
+		, 5000
+
 		ko.applyBindings viewModel
 
 		# Remove static link to new todo page and replace with a form input for
