@@ -1,5 +1,9 @@
 Todo::Application.routes.draw do
+  devise_for :users
+
   resources :todo_items
+
+  root :to => 'todo_items#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

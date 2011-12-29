@@ -1,50 +1,40 @@
-<div class="topbar">
-	<div class="fill">
-		<div class="container">
-			<%= link_to 'Todo', todo_items_path, :class => 'brand' %>
-		</div>
-	</div>
-</div>
+<h1>Todos</h1>
 
-<div class="container">
-	<h1>Todos</h1>
+<form id="new-todo-form">
+  <div id="new-todo-wrapper">
+    <input id="new-todo-content" name="new-todo-content" type="text" data-bind="event: { keyup: handleNewTodoKeyPress }" />
+    <input type="submit" value="Add" data-bind="enable: sendableTodo" class="btn primary" />
+  </div>
+</form>
 
-	<form id="new-todo-form">
-		<div id="new-todo-wrapper">
-			<input id="new-todo-content" name="new-todo-content" type="text" data-bind="event: { keyup: handleNewTodoKeyPress }" />
-			<input type="submit" value="Add" data-bind="enable: sendableTodo" class="btn primary" />
-		</div>
-	</form>
+<table class="zebra-striped">
+  <thead>
+    <tr>
+    <th></th>
+    <th>Priority</th>
+    <th>Content</th>
+    <th></th>
+    <th></th>
+    <th></th>
+    </tr>
+  </thead>
+  <tbody data-bind="template: {name: 'todo-row', foreach: todos}">
+  <% @todo_items.each do |todo_item| %>
+    <tr class="todo-item">
+    <td><input type="checkbox" <% if todo_item.complete %> checked="checked"<% end %> /></td>
+    <td><%= todo_item.priority %></td>
+    <td><span class="<%= 'finished' if todo_item.complete %>"><%= todo_item.content %></span></td>
+    <td><%= link_to 'Show', todo_item %></td>
+    <td><%= link_to 'Edit', edit_todo_item_path(todo_item) %></td>
+    <td><%= link_to 'Destroy', todo_item, confirm: 'Are you sure?', method: :delete, :class => 'btn danger' %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
 
-	<table class="zebra-striped">
-	  <thead>
-		  <tr>
-			<th></th>
-			<th>Priority</th>
-			<th>Content</th>
-			<th></th>
-			<th></th>
-			<th></th>
-		  </tr>
-	  </thead>
-	  <tbody data-bind="template: {name: 'todo-row', foreach: todos}">
-		<% @todo_items.each do |todo_item| %>
-		  <tr class="todo-item">
-			<td><input type="checkbox" <% if todo_item.complete %> checked="checked"<% end %> /></td>
-			<td><%= todo_item.priority %></td>
-			<td><span class="<%= 'finished' if todo_item.complete %>"><%= todo_item.content %></span></td>
-			<td><%= link_to 'Show', todo_item %></td>
-			<td><%= link_to 'Edit', edit_todo_item_path(todo_item) %></td>
-			<td><%= link_to 'Destroy', todo_item, confirm: 'Are you sure?', method: :delete, :class => 'btn danger' %></td>
-		  </tr>
-		<% end %>
-	  </tbody>
-	</table>
+<br />
 
-	<br />
-
-	<%= link_to 'New Todo item', new_todo_item_path, :id => 'new-todo-link' %>
-</div>
+<%= link_to 'New Todo item', new_todo_item_path, :id => 'new-todo-link' %>
 
 <script type="text/javascript">
 	var TODO = {
