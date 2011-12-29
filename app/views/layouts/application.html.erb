@@ -1,14 +1,30 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Todo</title>
-  <%= stylesheet_link_tag    "application" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+  <head>
+    <title>Todo</title>
+    <%= stylesheet_link_tag    "application" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="fill">
+        <div class="container">
+          <%= link_to 'Todo', todo_items_path, :class => 'brand' %>
+          <ul class="nav secondary-nav">
+            <li><%= link_to 'Log out', destroy_user_session_path, :method => :delete %></li>
+          </ul>
+        </div>
+      </div>
+    </div>
 
-<%= yield %>
+    <div class="container">
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
+    </div>
 
-</body>
+    <div class="container">
+      <%= yield %>
+    </div>
+  </body>
 </html>

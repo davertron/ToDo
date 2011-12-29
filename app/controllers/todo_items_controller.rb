@@ -1,8 +1,10 @@
 class TodoItemsController < ApplicationController
+  before_filter :authenticate_user!
+
   # GET /todo_items
   # GET /todo_items.json
   def index
-    @todo_items = TodoItem.all
+    @todo_items = TodoItem.all conditions: {user_id: current_user.id}
 
     respond_to do |format|
       format.html # index.html.erb
@@ -41,6 +43,7 @@ class TodoItemsController < ApplicationController
   # POST /todo_items.json
   def create
     @todo_item = TodoItem.new(params[:todo_item])
+    @todo_item.user_id = current_user.id
 
     respond_to do |format|
       if @todo_item.save
