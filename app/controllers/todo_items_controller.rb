@@ -4,7 +4,8 @@ class TodoItemsController < ApplicationController
   # GET /todo_items
   # GET /todo_items.json
   def index
-    @todo_items = TodoItem.all conditions: {user_id: current_user.id}
+    @todo_items = TodoItem.all conditions: {user_id: current_user.id, completed_on: Date.today}
+    @todo_items += TodoItem.all conditions: {user_id: current_user.id, complete: false}
 
     respond_to do |format|
       format.html # index.html.erb

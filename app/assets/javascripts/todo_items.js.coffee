@@ -13,6 +13,7 @@ $ ->
 			@complete = ko.observable mongoTodo.complete
 			@priority = mongoTodo.priority
 			@updating = ko.observable false
+			@completed_on = ko.observable(new Date(Date.parse mongoTodo.completed_on))
 
 			# When the completion status changes, update over ajax
 			@complete.subscribe =>
@@ -24,12 +25,18 @@ $ ->
 					, 500
 					return defer.promise()
 
+				if @complete()
+					@completed_on new Date()
+				else
+					@completed_on '2000-01-01'
+
 				$.when($.ajax(
 					data:
 						todo_item:
 							_id: @_id
 							content: @content
 							complete: @complete()
+							completed_on: if isNaN(@completed_on()) then '2000-01-01' else @completed_on().getFullYear() + '-' + (@completed_on().getMonth() + 1) + '-' + @completed_on().getDate()
 							priority: @priority
 					type: 'PUT'
 					dataType: 'html'
